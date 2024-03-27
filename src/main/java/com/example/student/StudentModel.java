@@ -3,6 +3,7 @@ package com.example.student;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.login.LoginUser;
 
@@ -12,8 +13,9 @@ public class StudentModel extends LoginUser {
     @OneToOne
     @JoinColumn(name = "user_id")
     private LoginUser user;
+
     @ElementCollection
-    private ArrayList<String> whatHelp;
+    private List<String> whatHelp = new ArrayList<>(); // Initialize the list
 
     public StudentModel() {
     }
@@ -26,14 +28,26 @@ public class StudentModel extends LoginUser {
         super.setId(studentId);
     }
 
-    public ArrayList<String> getHelpList() {
+    public List<String> getHelpList() {
         return whatHelp;
     }
-    public void setHelpList(ArrayList<String> subjectList) {this.whatHelp.addAll(subjectList);}
 
-    public void addHelp(String subject){ this.whatHelp.add(subject);  }
+    public void setHelpList(List<String> subjectList) {
+        this.whatHelp.clear(); // Clear the existing list before adding new elements
+        if (subjectList != null) {
+            this.whatHelp.addAll(subjectList);
+        }
+    }
 
-    public void removeHelps(ArrayList<String> remove){ this.whatHelp.removeAll(remove);}
+    public void addHelp(String subject) {
+        this.whatHelp.add(subject);
+    }
 
-    public void removeHelp(String remove){ this.whatHelp.remove(remove);}
+    public void removeHelps(List<String> remove) {
+        this.whatHelp.removeAll(remove);
+    }
+
+    public void removeHelp(String remove) {
+        this.whatHelp.remove(remove);
+    }
 }
