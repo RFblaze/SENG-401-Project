@@ -3,23 +3,30 @@ package com.example.tutor;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.example.login.LoginUser;
 
 @Entity
 @Table(name = "tutor")
-public class TutorModel extends LoginUser{
+public class TutorModel extends LoginUser {
     @OneToOne
     @JoinColumn(name = "user_id")
     private LoginUser user;
+
     @ElementCollection
-    private ArrayList<String> ableToTeach;
+    private List<String> ableToTeach = new ArrayList<>(); // Initialize the list
+
     @ElementCollection
-    private ArrayList<String> socialMedia;
+    private List<String> socialMedia = new ArrayList<>(); // Initialize the list
+
     @Transient
     private int userRating;
+
     private int ratingCount;
+
     private int totalStarts;
+
     private String bio;
 
     public TutorModel() {
@@ -33,19 +40,22 @@ public class TutorModel extends LoginUser{
         super.setId(id);
     }
 
-    public ArrayList<String> getAbleToTeach(){
+    public List<String> getAbleToTeach() {
         return ableToTeach;
     }
 
-    public void setAbleToTeach(ArrayList<String> list){
-        this.ableToTeach.addAll(list);
+    public void setAbleToTeach(List<String> ableToTeach) {
+        this.ableToTeach.clear(); // Clear the existing list before adding new elements
+        if (ableToTeach != null) {
+            this.ableToTeach.addAll(ableToTeach);
+        }
     }
 
     public void addSubject(String subject){ 
         this.ableToTeach.add(subject);
     }
 
-    public void removeSubjects(ArrayList<String> remove){
+    public void removeSubjects(List<String> remove){
          this.ableToTeach.removeAll(remove);
     }
 
